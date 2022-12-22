@@ -1,11 +1,16 @@
-/* Form-element ligger direkt på document-objektet och är globalt. Det betyder att man kan komma åt det utan att hämta upp det via exempelvis document.getElementById. 
+/* Form-element ligger direkt på document-objektet och är globalt. 
+Det betyder att man kan komma åt det utan att hämta upp det via exempelvis document.getElementById. 
 
 Andra element, såsom t.ex. ett div-element behöver hämtas ur HTML-dokumentet för att kunna hämtas i JavaScript. 
 
-Man skulle behöva skriva const todoList = document.getElemenetById("todoList"), för att hämta det elementet och sedan komma åt det via variabeln todoList. För formulär behöver man inte det steget, utan kan direkt använda todoForm (det id- och name-attribut som vi gav form-elementet), utan att man först skapar variabeln och hämtar form-elementet.
+Man skulle behöva skriva const todoList = document.getElemenetById("todoList"), 
+för att hämta det elementet och sedan komma åt det via variabeln todoList. 
+För formulär behöver man inte det steget, utan kan direkt använda todoForm (det id- och name-attribut som vi gav form-elementet), 
+utan att man först skapar variabeln och hämtar form-elementet.
 */
 
-/* På samma sätt kommer man åt alla fält i todoForm via dess name eller id-attribut. Så här kan vi använda title för att nå input-fältet title, som i HTML ser ut såhär: 
+/* På samma sätt kommer man åt alla fält i todoForm via dess name eller id-attribut. 
+Så här kan vi använda title för att nå input-fältet title, som i HTML ser ut såhär: 
 <input type="text" id="title" name="title" class="w-full rounded-md border-yellow-500 border-2 focus-within:outline-none focus:border-yellow-600 px-4 py-2" /> 
 
 Nedan används därför todoForm.[fältnamn] för att sätta eventlyssnare på respektive fält i formuläret.*/
@@ -16,7 +21,12 @@ Nedan används därför todoForm.[fältnamn] för att sätta eventlyssnare på r
 
 För att fånga tangenttryck kan man exempelvis använda eventtypen "keyup" och för att fånga eventet att någon lämnar fältet använder man eventtypen "blur" */
 
-/* Till alla dessa fält och alla dessa typer av event koppplas en och samma eventlyssnare; validateField. Eventlyssnaren är funktionen validateField och den vill ta emot själva fältet som berörs. Eftersom man inte får sätta parenteser efter en eventlyssnare när man skickar in den, får man baka in den i en anonym arrow-function. Man får alltså inte skriva todoForm.title.addEventListener("keyup", validateField(e.target)), utan man måste använda en omslutande funktion för att skicka e.target som argument. Därför används en anonym arrowfunction med bara en rad - att anropa validateField med det argument som den funktionen vill ha.  */
+/* Till alla dessa fält och alla dessa typer av event koppplas en och samma eventlyssnare; validateField. 
+Eventlyssnaren är funktionen validateField och den vill ta emot själva fältet som berörs. 
+Eftersom man inte får sätta parenteser efter en eventlyssnare när man skickar in den, 
+får man baka in den i en anonym arrow-function. Man får alltså inte skriva todoForm.title.addEventListener("keyup", validateField(e.target)), 
+utan man måste använda en omslutande funktion för att skicka e.target som argument. Därför används en anonym arrowfunction med bara en rad - 
+att anropa validateField med det argument som den funktionen vill ha.  */
 todoForm.title.addEventListener('keyup', (e) => validateField(e.target));
 todoForm.title.addEventListener('blur', (e) => validateField(e.target));
 /* En annan eventtyp som kan användas för att fånga tangenttryck är "input". De fungerar lite olika, men tillräckligt lika för vårt syfte. Kolla gärna själva upp skillnader.  */
@@ -124,7 +134,9 @@ function validateField(field) {
 
 /* Callbackfunktion som används för eventlyssnare när någon klickar på knappen av typen submit */
 function onSubmit(e) {
-  /* Standardbeteendet hos ett formulär är att göra så att webbsidan laddas om när submit-eventet triggas. I denna applikation vill vi fortsätta att köra JavaScript-kod för att behandla formulärets innehåll och om webbsidan skulle ladda om i detta skede skulle det inte gå.   */
+  /* Standardbeteendet hos ett formulär är att göra så att webbsidan laddas om när submit-eventet triggas. 
+  I denna applikation vill vi fortsätta att köra JavaScript-kod för att behandla formulärets 
+  innehåll och om webbsidan skulle ladda om i detta skede skulle det inte gå.   */
 
   /* Då kan man använda eventets metod preventDefault för att förhindra eventets standardbeteende, där submit-eventets standardbeteende är att ladda om webbsidan.  */
   e.preventDefault();
@@ -141,7 +153,9 @@ function onSubmit(e) {
 /* Funktion för att ta hand om formulärets data och skicka det till api-klassen. */
 function saveTask() {
   /* Ett objekt vid namn task byggs ihop med hjälp av formulärets innehåll */
-  /* Eftersom vi kan komma åt fältet via dess namn - todoForm - och alla formulärets fält med dess namn - t.ex. title - kan vi använda detta för att sätta värden hos ett objekt. Alla input-fält har sitt innehåll lagrat i en egenskap vid namn value (som också används i validateField-funktionen, men där har egenskapen value "destrukturerats" till en egen variabel. ) */
+  /* Eftersom vi kan komma åt fältet via dess namn - todoForm - och alla formulärets fält med dess namn - t.ex. title - 
+  kan vi använda detta för att sätta värden hos ett objekt. Alla input-fält har sitt innehåll lagrat i en egenskap vid namn value 
+  (som också används i validateField-funktionen, men där har egenskapen value "destrukturerats" till en egen variabel. ) */
   const task = {
     title: todoForm.title.value,
     description: todoForm.description.value,
@@ -160,7 +174,10 @@ function saveTask() {
   */
 
   api.create(task).then((task) => {
-    /* Task kommer här vara innehållet i promiset. Om vi ska följa objektet hela vägen kommer vi behöva gå hela vägen till servern. Det är nämligen det som skickas med res.send i server/api.js, som api-klassens create-metod tar emot med then, översätter till JSON, översätter igen till ett JavaScript-objekt, och till sist returnerar som ett promise. Nu har äntligen det promiset fångats upp och dess innehåll - uppgiften från backend - finns tillgängligt och har fått namnet "task".  */
+    /* Task kommer här vara innehållet i promiset. Om vi ska följa objektet hela vägen kommer vi behöva gå hela vägen till servern. 
+    Det är nämligen det som skickas med res.send i server/api.js, som api-klassens create-metod tar emot med then, 
+    översätter till JSON, översätter igen till ett JavaScript-objekt, och till sist returnerar som ett promise. 
+    Nu har äntligen det promiset fångats upp och dess innehåll - uppgiften från backend - finns tillgängligt och har fått namnet "task".  */
     if (task) {
       /* När en kontroll har gjorts om task ens finns - dvs. att det som kom tillbaka från servern faktiskt var ett objekt kan vi anropa renderList(), som ansvarar för att uppdatera vår todo-lista. renderList kommer alltså att köras först när vi vet att det gått bra att spara ner den nya uppgiften.  */
       renderList();
@@ -209,15 +226,27 @@ Endast en uppgift åt gången kommer att skickas in här, eftersom den anropas i
 
 /* Destructuring används för att endast plocka ut vissa egenskaper hos uppgifts-objektet. Det hade kunnat stå function renderTask(task) {...} här - för det är en hel task som skickas in - men då hade man behövt skriva task.id, task.title osv. på alla ställen där man ville använda dem. Ett trick är alltså att "bryta ut" dessa egenskaper direkt i funktionsdeklarationen istället. Så en hel task skickas in när funktionen anropas uppe i todoListElement.insertAdjacentHTML("beforeend", renderTask(task)), men endast vissa egenskaper ur det task-objektet tas emot här i funktionsdeklarationen. */
 function renderTask({ id, title, description, dueDate }) {
-  /* Baserat på inskickade egenskaper hos task-objektet skapas HTML-kod med styling med hjälp av tailwind-klasser. Detta görs inuti en templatestring  (inom`` för att man ska kunna använda variabler inuti. Dessa skrivs inom ${}) */
+  /* Baserat på inskickade egenskaper hos task-objektet skapas HTML-kod med styling med hjälp av tailwind-klasser. 
+  Detta görs inuti en templatestring  (inom`` för att man ska kunna använda variabler inuti. Dessa skrivs inom ${}) */
 
   /*
-  Det som skrivs inom `` är vanlig HTML, men det kan vara lite svårt att se att det är så. Om man enklare vill se hur denna kod fungerar kan man klistra in det i ett HTML-dokument, för då får man färgkodning och annat som kan underlätta. Om man gör det kommer dock ${...} inte innehålla texten i variabeln utan bara skrivas ut som det är. Men det är lättare att felsöka just HTML-koden på det sättet i alla fall. 
+  Det som skrivs inom `` är vanlig HTML, men det kan vara lite svårt att se att det är så. 
+  Om man enklare vill se hur denna kod fungerar kan man klistra in det i ett HTML-dokument, 
+  för då får man färgkodning och annat som kan underlätta. Om man gör det kommer dock ${...} 
+  inte innehålla texten i variabeln utan bara skrivas ut som det är. 
+  Men det är lättare att felsöka just HTML-koden på det sättet i alla fall. 
   */
 
-  /* Lite kort om vad HTML-koden innehåller. Det mesta är bara struktur och Tailwind-styling enligt eget tycke och smak. Värd att nämna extra är dock knappen, <button>-elementet, en bit ned. Där finns ett onclick-attribut som kopplar en eventlyssnare till klickeventet. Eventlyssnaren här heter onDelete och den får med sig egenskapen id, som vi fått med oss från task-objektet. Notera här att det går bra att sätta parenteser och skicka in id på detta viset här, men man fick inte sätta parenteser på eventlyssnare när de kopplades med addEventListener (som för formulärfälten högre upp i koden). En stor del av föreläsning 3 rörande funktioner och event förklarar varför man inte får sätta parenteser på callbackfunktioner i JavaScriptkod. 
+  /* Lite kort om vad HTML-koden innehåller. Det mesta är bara struktur och Tailwind-styling enligt eget tycke och smak. 
+  Värd att nämna extra är dock knappen, <button>-elementet, en bit ned. Där finns ett onclick-attribut som kopplar en eventlyssnare till klickeventet. 
+  Eventlyssnaren här heter onDelete och den får med sig egenskapen id, som vi fått med oss från task-objektet. 
+  Notera här att det går bra att sätta parenteser och skicka in id på detta viset här, 
+  men man fick inte sätta parenteser på eventlyssnare när de kopplades med addEventListener 
+  (som för formulärfälten högre upp i koden). En stor del av föreläsning 3 rörande funktioner och event förklarar varför man inte 
+  får sätta parenteser på callbackfunktioner i JavaScriptkod. 
   
-  När eventlyssnaren kopplas till knappen här nedanför, görs det däremot i HTML-kod och inte JavaScript. Man sätter ett HTML-attribut och refererar till eventlyssnarfunktionen istället. Då fungerar det annorlunda och parenteser är tillåtna. */
+  När eventlyssnaren kopplas till knappen här nedanför, görs det däremot i HTML-kod och inte JavaScript. 
+  Man sätter ett HTML-attribut och refererar till eventlyssnarfunktionen istället. Då fungerar det annorlunda och parenteser är tillåtna. */
   let html = `
     <li class="select-none mt-2 py-2 border-b border-amber-300">
       <div class="flex items-center">
@@ -240,9 +269,15 @@ function renderTask({ id, title, description, dueDate }) {
 
   /* När html-strängen eventuellt har byggts på med HTML-kod för description-egenskapen läggs till sist en sträng motsvarande sluttaggen för <li>-elementet dit. */
   html += `
+  <label for="checkbox${id}">Avklarad?     </label><input type="checkbox" id="box${id}" name="checkbox${id}" onclick="updateStatus(${id})">
     </li>`;
   /***********************Labb 2 ***********************/
-  /* I ovanstående template-sträng skulle det vara lämpligt att sätta en checkbox, eller ett annat element som någon kan klicka på för att markera en uppgift som färdig. Det elementet bör, likt knappen för delete, också lyssna efter ett event (om du använder en checkbox, kolla på exempelvis w3schools vilket element som triggas hos en checkbox när dess värde förändras.). Skapa en eventlyssnare till det event du finner lämpligt. Funktionen behöver nog ta emot ett id, så den vet vilken uppgift som ska markeras som färdig. Det skulle kunna vara ett checkbox-element som har attributet on[event]="updateTask(id)". */
+  /* I ovanstående template-sträng skulle det vara lämpligt att sätta en checkbox, eller ett annat element som någon kan klicka på för att markera en uppgift som färdig. 
+  Det elementet bör, likt knappen för delete, också lyssna efter ett event 
+  (om du använder en checkbox, kolla på exempelvis w3schools vilket element som triggas hos en checkbox när dess värde förändras.). 
+  Skapa en eventlyssnare till det event du finner lämpligt. 
+  Funktionen behöver nog ta emot ett id, så den vet vilken uppgift som ska markeras som färdig. 
+  Det skulle kunna vara ett checkbox-element som har attributet on[event]="updateTask(id)". */
   /***********************Labb 2 ***********************/
 
   /* html-variabeln returneras ur funktionen och kommer att vara den som sätts som andra argument i todoListElement.insertAdjacentHTML("beforeend", renderTask(task)) */
@@ -261,24 +296,45 @@ function deleteTask(id) {
     /* Notera att parametern result används aldrig i denna funktion. Vi skickar inte tillbaka någon data från servern vid DELETE-förfrågningar, men denna funktion körs när hela anropet är färdigt så det är fortfarande ett bra ställe att rendera om listan, eftersom vi här i callbackfunktionen till then() vet att den asynkrona funktionen remove har körts färdigt. */
   });
 }
+function updateStatus(id){
+  updatedId = id;
+  checkStatus = document.getElementById('box'+id).checked;
+  console.log(document.getElementById('box'+id).checked);
+  JSONData = {
+    completed: checkStatus,
+  };
+ 
+  
+  console.log(checkStatus)
+  api.update(updatedId, JSONData);
 
+}
+
+//api.create(task).then((task) => {
+//.then((result) => renderList());
 /***********************Labb 2 ***********************/
-/* Här skulle det vara lämpligt att skriva den funktion som angivits som eventlyssnare för när någon markerar en uppgift som färdig. Jag pratar alltså om den eventlyssnare som angavs i templatesträngen i renderTask. Det kan t.ex. heta updateTask. 
+/* Här skulle det vara lämpligt att skriva den funktion som angivits som eventlyssnare för när någon markerar en uppgift som färdig. 
+Jag pratar alltså om den eventlyssnare som angavs i templatesträngen i renderTask. Det kan t.ex. heta updateTask. 
   
 Funktionen bör ta emot ett id som skickas från <li>-elementet.
 */
 
-/* Inuti funktionen kan ett objekt skickas till api-metoden update. Objektet ska som minst innehålla id på den uppgift som ska förändras, samt egenskapen completed som true eller false, beroende på om uppgiften markerades som färdig eller ofärdig i gränssnittet. 
+/* Inuti funktionen kan ett objekt skickas till api-metoden update. 
+Objektet ska som minst innehålla id på den uppgift som ska förändras, samt egenskapen completed som true eller false, 
+beroende på om uppgiften markerades som färdig eller ofärdig i gränssnittet. 
 
 Det finns några sätt att utforma det som ska skickas till api.update-metoden. 
 
-Alternativ 1: objektet består av ett helt task-objekt, som också inkluderar förändringen. Exempel: {id: 1,  title: "x", description: "x", dueDate: "x", completed: true/false}
+Alternativ 1: objektet består av ett helt task-objekt, som också inkluderar förändringen. 
+Exempel: {id: 1,  title: "x", description: "x", dueDate: "x", completed: true/false}
 Alternativ 2: objektet består bara av förändringarna och id på den uppgift som ska förändras. Exempel: {id: 1, completed: true/false } 
 
 Om du hittar något annat sätt som funkar för dig, använd för all del det, så länge det uppnår samma sak. :)
 */
 
-/* Anropet till api.update ska följas av then(). then() behöver, som bör vara bekant vid det här laget, en callbackfunktion som ska hantera det som kommer tillbaka från servern via vår api-klass. Inuti den funktionen bör listan med uppgifter renderas på nytt, så att den nyligen gjorda förändringen syns. */
+/* Anropet till api.update ska följas av then(). then() behöver, som bör vara bekant vid det här laget, 
+en callbackfunktion som ska hantera det som kommer tillbaka från servern via vår api-klass. 
+Inuti den funktionen bör listan med uppgifter renderas på nytt, så att den nyligen gjorda förändringen syns. */
 
 /***********************Labb 2 ***********************/
 
