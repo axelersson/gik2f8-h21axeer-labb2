@@ -137,13 +137,7 @@ class Api {
   update(id, checkStatus){
     console.log(checkStatus + ' här är checkstatus')
     const convertedStatus = JSON.stringify(checkStatus)
-    
-    /*const request = new Request(`${this.url}/${id}`,{
-      method: 'PATCH',
-      body: convertedStatus,
-      headers: {
-        'Content-Type': 'application/json'
-      }}); */
+  
       console.log(JSONData)
   
       return( fetch(`${this.url}/${id}`,{ 
@@ -154,7 +148,6 @@ class Api {
         'Content-Type': 'application/json'
       }})
       .then((result) => result.json())
-      //.then((json) => console.log(json))
       .catch((err) => console.log(err))
       
       )
@@ -165,36 +158,6 @@ class Api {
     }
   
 
-    /*const JSONData = JSON.stringify(data);
-    
-    return fetch(`${this.url}/${id}`, {
-      method: 'PATCH',
-      body: JSONData,
-
-
-
-    /*
-    const request = new Request(this.url, {
-      method: 'POST',
-      body: JSONData,
-      headers: {
-        'content-type': 'application/json'
-      }
-    }*/
-    /*
-    const request = new Request(`${this.url}/${id}`, 
-    method: 'PATCH',
-    body: convertedStatus,
-    headers: {
-      'Content-Type': 'application/json'
-    })
-    
-    request)
-      
-        .then((result) => result.json()))
-        .then((json) => console.log(json))
-        .catch((err) => console.log(err))
-    
     
 
   /*   
