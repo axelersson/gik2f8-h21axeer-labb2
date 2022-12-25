@@ -227,22 +227,22 @@ function renderList() {
         setbox = tasks.completed;
         
         document.getElementById('box'+tasks.id).checked = setbox;
-        if (tasks.completed == true){
-          tasksToChange += 'taskContainer'+tasks.id;
+        //if (tasks.completed == true){
+        //  tasksToChange += 'taskContainer'+tasks.id;
           //if (setCompleted){
             //console.log(setCompleted + ' detta är setCompleted')  
             //getElementById(setCompleted).then();
             //testFunktion(setCompleted);
           //}
           //console.log(getElementById(setCompleted))
-          console.log(document.querySelector('#setCompleted')) //.innerHTML = "djkasjdksadk"//.classList.add('bg-black');
+        //  console.log(document.querySelector('#setCompleted')) //.innerHTML = "djkasjdksadk"//.classList.add('bg-black');
           //console.log(hejsan)
           
           //hejsan = getElementById(setCompleted);
           //console.log(hejsan)
           
           //console.log(setCompleted); //.add('bg-black')
-        }
+        
         
         //checkStatus = document.getElementById('box'+id).checked;
         //box + id.checked=${completed}
@@ -345,7 +345,8 @@ function updateStatus(id){
  
   
   console.log(checkStatus)
-  api.update(updatedId, JSONData);
+  api.update(updatedId, JSONData).then(renderList);
+  
 
 }
 
