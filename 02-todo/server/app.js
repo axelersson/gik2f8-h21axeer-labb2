@@ -134,7 +134,7 @@ app.patch('/tasks/:id', async (req, res) => {
     //Skapar ett nytt objekt som ska hålla nya uppdaterade JSONobjektet
     let updatedStatus;
     //Filtrera genom array och uppdatera isDone på arrayplats id.
-    console.log(incVariable)
+    //console.log(incVariable)
 
 for (let index = 0; index < currentTasks.length; index++) {
   if (currentTasks[index].id == id){

@@ -51,6 +51,7 @@ const todoListElement = document.getElementById('todoList');
 let titleValid = true;
 let descriptionValid = true;
 let dueDateValid = true;
+let tasksToChange;
 
 /* Här skapas en instans av api-klassen som finns i filen Api.js. 
 Där skrevs en konstruktor, som skulle ta emot en url. 
@@ -188,6 +189,7 @@ function saveTask() {
 
 /* En funktion som ansvarar för att skriva ut todo-listan i ett ul-element. */
 function renderList() {
+  tasksToChange = '';
   /* Logg som visar att vi hamnat i render-funktionen */
   console.log('rendering');
 
@@ -208,7 +210,8 @@ function renderList() {
       tasks.sort(function (a, b){
         return a.dueDate > b.dueDate
       });  
-      /* Om tasks är en lista som har längd större än 0 loopas den igenom med forEach. forEach tar, likt then, en callbackfunktion. Callbackfunktionen tar emot namnet på varje enskilt element i arrayen, som i detta fall är ett objekt innehållande en uppgift.  */
+      /* Om tasks är en lista som har längd större än 0 loopas den igenom med forEach. forEach tar, likt then, en callbackfunktion. 
+      Callbackfunktionen tar emot namnet på varje enskilt element i arrayen, som i detta fall är ett objekt innehållande en uppgift.  */
       tasks.forEach((tasks) => { 
         
         /* Om vi bryter ned nedanstående rad får vi något i stil med:
@@ -218,11 +221,28 @@ function renderList() {
         4. renderTask(task) - funktion som returnerar HTML. 
         5. task (objekt som representerar en uppgift som finns i arrayen) skickas in till renderTask, för att renderTask ska kunna skapa HTML utifrån egenskaper hos uppgifts-objektet. 
         */
-
+        
         /* Denna kod körs alltså en gång per element i arrayen tasks, dvs. en  gång för varje uppgiftsobjekt i listan. */
         todoListElement.insertAdjacentHTML('beforeend', renderTask(tasks));
         setbox = tasks.completed;
+        
         document.getElementById('box'+tasks.id).checked = setbox;
+        if (tasks.completed == true){
+          tasksToChange += 'taskContainer'+tasks.id;
+          //if (setCompleted){
+            //console.log(setCompleted + ' detta är setCompleted')  
+            //getElementById(setCompleted).then();
+            //testFunktion(setCompleted);
+          //}
+          //console.log(getElementById(setCompleted))
+          console.log(document.querySelector('#setCompleted')) //.innerHTML = "djkasjdksadk"//.classList.add('bg-black');
+          //console.log(hejsan)
+          
+          //hejsan = getElementById(setCompleted);
+          //console.log(hejsan)
+          
+          //console.log(setCompleted); //.add('bg-black')
+        }
         
         //checkStatus = document.getElementById('box'+id).checked;
         //box + id.checked=${completed}
@@ -259,7 +279,13 @@ function renderTask({ id, title, description, dueDate, completed }) {
   När eventlyssnaren kopplas till knappen här nedanför, görs det däremot i HTML-kod och inte JavaScript. 
   Man sätter ett HTML-attribut och refererar till eventlyssnarfunktionen istället. Då fungerar det annorlunda och parenteser är tillåtna. */
   let html = `
-    <li class="select-none mt-2 py-2 border-b border-amber-300">
+    <li id="taskContainer${id}"` 
+    if(completed == true) {
+      html += `class="bg-lime-400"`
+    }
+    
+    
+    html += `class="select-none mt-2 py-2 border-b border-amber-300">
       <div class="flex items-center">
         <h3 class="mb-3 flex-1 text-xl font-bold text-pink-800 uppercase">${title}</h3>
         <div>
@@ -352,4 +378,9 @@ Inuti den funktionen bör listan med uppgifter renderas på nytt, så att den ny
 /***********************Labb 2 ***********************/
 
 /* Slutligen. renderList anropas också direkt, så att listan visas när man först kommer in på webbsidan.  */
+
 renderList();
+function testFunktion(asd) {
+  console.log(asd)
+  //getElementById(asd).innerHTML = 'ehjahsjasasd'
+}
